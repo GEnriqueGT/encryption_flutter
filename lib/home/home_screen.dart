@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:password_manager/home/widget/home_body.dart';
 import 'package:password_manager/resources/colours.dart';
+import 'package:password_manager/routes/landing_routes_constants.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,7 +14,9 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(backgroundColor: pink, toolbarHeight: 0,automaticallyImplyLeading: false),
       floatingActionButton: FloatingActionButton(
         backgroundColor: darkPink,
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pushNamed(context, createRoute);
+        },
         child: const Icon(Icons.add),
       ),
     );

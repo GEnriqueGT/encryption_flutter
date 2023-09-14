@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:password_manager/login/widget/custom_text_field.dart';
+import 'package:password_manager/common/widgets/custom_text_field.dart';
 import 'package:password_manager/resources/colours.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:password_manager/resources/constants.dart';
@@ -56,7 +56,7 @@ class _LoginBodyState extends State<LoginBody> {
           const SizedBox(height: 20.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, homeRoute);
+              Navigator.pushReplacementNamed(context, homeRoute);
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero,
