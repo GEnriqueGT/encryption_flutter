@@ -63,6 +63,33 @@ class _HomeBodyState extends State<HomeBody> {
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: const TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                ),
+                hintText: 'Buscar contraseñas',
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: passwords.length,
