@@ -12,7 +12,9 @@ class PasswordCreateBody extends StatefulWidget {
 }
 
 class _PasswordCreateBodyState extends State<PasswordCreateBody> {
-
+  final TextEditingController urlController = TextEditingController();
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final List<String> categories = ['Categoría 1', 'Categoría 2', 'Categoría 3'];
   String selectedCategory = 'Categoría 1';
 
@@ -76,17 +78,17 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: const CustomTextField(label: 'Dirección del Sitio'),
+          child:  CustomTextField(label: 'Dirección del Sitio', controller: urlController),
         ),
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: const CustomTextField(label: 'Nombre de Usuario'),
+          child:  CustomTextField(label: 'Nombre de Usuario', controller: userController),
         ),
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: const CustomTextField(label: 'Contraseña', obscureText: true),
+          child:  CustomTextField(label: 'Contraseña', obscureText: true, controller: passwordController,),
         ),
       ],
     );

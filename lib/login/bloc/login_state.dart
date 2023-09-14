@@ -19,3 +19,5 @@ class LoginError extends LoginState {
   const LoginError(
       this.message);
 }
+
+class LoginSuccess extends LoginState {}

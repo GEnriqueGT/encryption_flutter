@@ -4,11 +4,13 @@ import 'package:password_manager/resources/colours.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final bool obscureText;
+  final TextEditingController controller;
 
   const CustomTextField({
     super.key,
     required this.label,
     this.obscureText = false,
+    required this.controller
   });
 
   @override
@@ -28,6 +30,7 @@ class CustomTextField extends StatelessWidget {
         SizedBox(
           height: 50.0,
           child: TextFormField(
+            controller: controller,
             obscureText: obscureText,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
