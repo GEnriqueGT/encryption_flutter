@@ -14,6 +14,13 @@ class Login extends LoginEvent {
   List<Object> get props => [email, password];
 }
 
+class LoginWithGoogle extends LoginEvent {
+  const LoginWithGoogle();
+
+  @override
+  List<Object> get props => [];
+}
+
 class VerifyToken extends LoginEvent{
   const VerifyToken();
 

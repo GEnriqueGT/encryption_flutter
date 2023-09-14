@@ -158,7 +158,9 @@ class _LoginBodyState extends State<LoginBody> {
                   width: 20,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    loginBloc.add(const LoginWithGoogle());
+                  },
                   child: SvgPicture.asset(
                     '${imagePath}google-logo.svg',
                     width: 32,
