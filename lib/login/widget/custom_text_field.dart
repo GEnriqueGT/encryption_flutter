@@ -30,6 +30,7 @@ class CustomTextField extends StatelessWidget {
           child: TextFormField(
             obscureText: obscureText,
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                   color: redPink,
