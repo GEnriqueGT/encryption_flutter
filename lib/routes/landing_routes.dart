@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_manager/home/home_screen.dart';
 import 'package:password_manager/login/login_screen.dart';
 import 'package:password_manager/routes/landing_routes_constants.dart';
 
@@ -8,6 +9,10 @@ class LandingRoutes {
       case rootRoute:
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
+        );
+      case homeRoute:
+        return MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
         );
       default:
         return MaterialPageRoute(

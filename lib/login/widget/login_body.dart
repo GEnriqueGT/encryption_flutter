@@ -3,6 +3,7 @@ import 'package:password_manager/login/widget/custom_text_field.dart';
 import 'package:password_manager/resources/colours.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:password_manager/resources/constants.dart';
+import 'package:password_manager/routes/landing_routes_constants.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class _LoginBodyState extends State<LoginBody> {
             '${imagePath}app-logo.svg',
             width: 150,
             height: 150,
+            color: darkPink,
           ),
           const Text(
             '!Bienvenido a tu Gestor de Contraseñas¡',
@@ -53,7 +55,9 @@ class _LoginBodyState extends State<LoginBody> {
           ),
           const SizedBox(height: 20.0),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, homeRoute);
+            },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero,
               shape: RoundedRectangleBorder(
