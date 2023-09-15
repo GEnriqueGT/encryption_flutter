@@ -17,23 +17,22 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   late HomeBloc homeBloc;
+  late List<Password> passwords;
 
   @override
   void initState() {
     super.initState();
+    passwords = [];
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     homeBloc = context.read<HomeBloc>();
+    homeBloc.add(const GetPasswordsSaved());
   }
 
-  final List<Password> passwords = [
-    Password(
-        site: 'google', username: 'jhondoe@gmail.com', password: 'dwdadad'),
-    Password(site: 'Sitio 2', username: 'Usuario 2', password: 'Contraseña 2'),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +40,10 @@ class _HomeBodyState extends State<HomeBody> {
       listener: (context, state) {
         if (state is LogOutSuccess) {
           Navigator.pushReplacementNamed(context, rootRoute);
+        } else if (state is PasswordsSucces){
+          setState(() {
+            passwords = state.passwordsSaved;
+          });
         }
       },
       child: SafeArea(

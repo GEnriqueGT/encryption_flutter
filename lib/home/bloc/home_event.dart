@@ -12,3 +12,11 @@ class LogOut extends HomeEvent{
   List<Object> get props => [];
 
 }
+
+class GetPasswordsSaved extends HomeEvent{
+  const GetPasswordsSaved();
+
+  @override
+  List<Object> get props => [];
+
+}
