@@ -171,7 +171,9 @@ class _HomeBodyState extends State<HomeBody> {
                       Icons.arrow_forward,
                       color: darkPink,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, passwordPreviewRoute, arguments: password.id);
+                    },
                   ),
                 );
               },

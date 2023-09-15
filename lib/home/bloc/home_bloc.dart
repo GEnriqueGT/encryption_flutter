@@ -36,7 +36,7 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
     Emitter<BaseState> emit,
   ) async {
     try {
-      final List<Password> passwordsInFirestore = [];
+      List<Password> passwordsInFirestore = [];
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -47,13 +47,13 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
           .where("uid", isEqualTo: userId)
           .get();
 
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         var data = doc.data() as Map<String, dynamic>;
         passwordsInFirestore.add(Password.fromJson(
           data,
           doc.id,
         ));
-      });
+      }
 
       emit(PasswordsSucces(passwordsInFirestore));
     } catch (error) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:password_manager/home/home_screen.dart';
 import 'package:password_manager/login/login_screen.dart';
 import 'package:password_manager/password-create/password_create_screen.dart';
+import 'package:password_manager/password-preview/password_preview_screen.dart';
 import 'package:password_manager/routes/landing_routes_constants.dart';
 
 class LandingRoutes {
@@ -18,6 +19,11 @@ class LandingRoutes {
       case createRoute:
         return MaterialPageRoute(
           builder: (_) => const PasswordCreateScreen(),
+        );
+      case passwordPreviewRoute:
+        final String passwordId = settings.arguments as String ;
+        return MaterialPageRoute(
+          builder: (_) =>  PasswordPreviewScreen(passwordId: passwordId),
         );
       default:
         return MaterialPageRoute(
