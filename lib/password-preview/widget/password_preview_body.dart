@@ -47,6 +47,9 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             setState(() {
               passwordInfo = state.passwordInfo;
             });
+          } else if(state is DeletePasswordSuccess){
+            Navigator.pop(context);
+            Navigator.pop(context);
           }
         },
         child: Column(
@@ -56,36 +59,54 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
               height: 150.0,
               color: pink.withOpacity(0.4),
               alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Stack(
                 children: [
-                  const Text(
-                    'Tu Contraseña',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () {
+                        showDeleteDialog(context);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: darkPink,
+                        size: 25,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Stack(
-                    alignment: Alignment.center,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 60.0,
-                        height: 60.0,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
+                      const Text(
+                        'Tu Contraseña',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
                         ),
                       ),
-                      SvgPicture.asset(
-                        '${imagePath}password-logo.svg',
-                        width: 40,
-                        height: 40,
-                        color: darkPink,
+                      const SizedBox(height: 10),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SvgPicture.asset(
+                            '${imagePath}password-logo.svg',
+                            width: 40,
+                            height: 40,
+                            color: darkPink,
+                          ),
+                        ],
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
@@ -103,5 +124,32 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             ),
           ],
         ));
+  }
+
+  Future<void> showDeleteDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Eliminar Contraseña"),
+          content: const Text(
+              "¿Está seguro de que desea eliminar definitivamente esta contraseña?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                passwordPreviewBloc.add(DeletePassword(widget.passwordId));
+              },
+              child: const Text("Sí"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("No"),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

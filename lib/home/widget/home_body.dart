@@ -172,7 +172,7 @@ class _HomeBodyState extends State<HomeBody> {
                       color: darkPink,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, passwordPreviewRoute, arguments: password.id);
+                      Navigator.pushNamed(context, passwordPreviewRoute, arguments: password.id).then((value) => homeBloc.add(const GetPasswordsSaved()));
                     },
                   ),
                 );

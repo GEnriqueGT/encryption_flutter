@@ -13,3 +13,12 @@ class RequestPassword extends PasswordPreviewEvent{
   List<Object> get props => [passwordId];
 
 }
+
+class DeletePassword extends PasswordPreviewEvent{
+  final String passwordId;
+  const DeletePassword(this.passwordId);
+
+  @override
+  List<Object> get props => [passwordId];
+
+}

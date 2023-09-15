@@ -11,6 +11,8 @@ class PasswordPreviewInitial extends PasswordPreviewState {}
 
 class GetPasswordInProgress extends PasswordPreviewState {}
 
+class DeletePasswordSuccess extends PasswordPreviewState {}
+
 class GetPasswordInfoError extends PasswordPreviewState {
   final String message;
 

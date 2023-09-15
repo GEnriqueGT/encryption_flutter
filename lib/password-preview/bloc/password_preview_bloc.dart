@@ -12,6 +12,7 @@ part 'password_preview_state.dart';
 class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
   PasswordPreviewBloc() : super(PasswordPreviewInitial()) {
     on<RequestPassword>(getPassword);
+    on<DeletePassword>(deletePassword);
   }
 
   Future<void> getPassword(
@@ -36,8 +37,27 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
         emit(PasswordSucces(passwordInfo));
       }
     } catch (error) {
-      print(error);
+      emit(
+        GetPasswordInfoError(
+          error.toString(),
+        ),
+      );
+    }
+  }
 
+  Future<void> deletePassword(
+      final DeletePassword event,
+      Emitter<BaseState> emit,
+      ) async {
+    try {
+
+      await FirebaseFirestore.instance
+          .collection("password_stored")
+          .doc(event.passwordId)
+          .delete();
+
+      emit(DeletePasswordSuccess());
+    } catch (error) {
       emit(
         GetPasswordInfoError(
           error.toString(),
