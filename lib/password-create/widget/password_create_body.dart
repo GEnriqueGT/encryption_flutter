@@ -97,15 +97,18 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
               CustomTextField(
                 label: 'Dirección del Sitio',
                 controller: urlController,
+                icon: Icons.public,
               ),
               CustomTextField(
                 label: 'Nombre de Usuario',
                 controller: userController,
+                icon: Icons.person,
               ),
               CustomTextField(
                 label: 'Contraseña',
                 obscureText: true,
                 controller: passwordController,
+                icon: Icons.key,
               ),
             ],
           ),

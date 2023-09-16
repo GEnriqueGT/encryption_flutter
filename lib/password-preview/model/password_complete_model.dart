@@ -10,13 +10,12 @@ class PasswordComplete {
     required this.site,
     required this.username,
     required this.id,
+    required this.password,
     required this.categoryId,
     required this.tagsIds,
-    required this.password,
   });
 
-  factory PasswordComplete.fromJson(
-      Map<String, dynamic> json, final String id) {
+  factory PasswordComplete.fromJson(Map<String, dynamic> json, final String id) {
     String password = "";
     String site = "";
     String username = "";
@@ -47,13 +46,26 @@ class PasswordComplete {
       });
     }
 
-
     return PasswordComplete(
-        site: site,
-        username: username,
-        id: id,
-        categoryId: categoryId,
-        tagsIds: tagsIds,
-        password: password);
+      site: site,
+      username: username,
+      id: id,
+      categoryId: categoryId,
+      tagsIds: tagsIds,
+      password: password,
+    );
+  }
+
+  Map<String, dynamic> toJson(String userId) {
+    final Map<String, dynamic> passwordData = {
+      'site_address': site,
+      'user': username,
+      'category_id': categoryId,
+      'tags': tagsIds,
+      'password': password,
+      'uid': userId,
+    };
+
+    return passwordData;
   }
 }
