@@ -29,5 +29,12 @@ class PasswordsSuccess extends HomeState {
       this.passwordsSaved);
 }
 
+class PasswordsSearchSuccess extends HomeState {
+  final List<Password> passwordsSaved;
+
+  const PasswordsSearchSuccess(
+      this.passwordsSaved);
+}
+
 
 class LogOutSuccess extends HomeState {}

@@ -50,10 +50,13 @@ class _HomeBodyState extends State<HomeBody> {
         } else if (state is PasswordsSuccess){
           setState(() {
             passwords = state.passwordsSaved;
-
-           if(passwordsInitialCache.isEmpty) passwordsInitialCache = passwords;
+            passwordsInitialCache = passwords;
           });
-        } else if (state is PasswordsSuccess){
+        }  else if (state is PasswordsSearchSuccess){
+          setState(() {
+            passwords = state.passwordsSaved;
+          });
+        } else if (state is ResetSearch){
           setState(() {
            passwords = passwordsInitialCache;
           });
