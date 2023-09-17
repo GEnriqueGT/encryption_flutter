@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:password_manager/common/bloc/base_state.dart';
 import 'package:password_manager/common/widgets/custom_dropdown.dart';
 import 'package:password_manager/common/widgets/custom_text_field.dart';
+import 'package:password_manager/password-create/bloc/password_create_bloc.dart';
+import 'package:password_manager/password-preview/model/password_complete_model.dart';
 import 'package:password_manager/resources/colours.dart';
 import 'package:password_manager/resources/constants.dart';
+import 'package:toast/toast.dart';
 
 class PasswordCreateBody extends StatefulWidget {
   const PasswordCreateBody({Key? key}) : super(key: key);
@@ -20,9 +25,37 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
   String selectedCategory = 'Categoría 1';
   List<String> tags = [];
 
+  late PasswordComplete passwordCreateModel;
+  late PasswordCreateBloc passwordCreateBlocBloc;
+  late ToastContext toastContext;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordCreateModel = PasswordComplete(
+        site: "",
+        username: "",
+        categoryId: 0,
+        tagsIds: [],
+        password: "");
+    toastContext = ToastContext();
+    toastContext.init(context);
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    passwordCreateBlocBloc = context.read<PasswordCreateBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return BlocListener<PasswordCreateBloc, BaseState>(listener: (context, state) {
+      if (state is CreatePasswordSuccess) {
+        Navigator.pop(context);
+      } else if(state is PasswordCreateError){
+        Toast.show(state.message, duration: Toast.lengthShort, gravity:  Toast.bottom);
+      }
+    }, child: ListView(
       children: <Widget>[
         Container(
           height: 150.0,
@@ -113,7 +146,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
             ],
           ),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -171,12 +204,22 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Expanded(
           child: Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+
+                passwordCreateModel.categoryId = 1;
+                passwordCreateModel.site = urlController.text;
+                passwordCreateModel.username = userController.text;
+                passwordCreateModel.password = passwordController.text;
+                passwordCreateModel.tagsIds = [];
+
+                passwordCreateBlocBloc.add(CreatePassword(passwordCreateModel));
+                
+              },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
@@ -208,7 +251,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
           ),
         ),
       ],
-    );
+    ),);
   }
 
   void _mostrarDialogoAgregarTag() {

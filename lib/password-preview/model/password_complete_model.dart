@@ -1,15 +1,15 @@
 class PasswordComplete {
-  final String site;
-  final String username;
-  final String id;
-  final String password;
-  final int categoryId;
-  final List<int> tagsIds;
+   String site;
+   String username;
+  final String? id;
+   String password;
+   int categoryId;
+   List<int> tagsIds;
 
   PasswordComplete({
     required this.site,
     required this.username,
-    required this.id,
+     this.id,
     required this.password,
     required this.categoryId,
     required this.tagsIds,
@@ -38,14 +38,15 @@ class PasswordComplete {
       password = json['password'];
     }
 
-    if (json['tags'] != null) {
-      Map<String, dynamic> tagsData = json['tags'];
+    if (json['tags'] != null && json['tags'] != []) {
+      List<dynamic> tagsData = json['tags'];
 
-      tagsData.forEach((key, value) {
-        tagsIds.add(value);
-      });
+      for (var value in tagsData) {
+        if (value is int) {
+          tagsIds.add(value);
+        }
+      }
     }
-
     return PasswordComplete(
       site: site,
       username: username,

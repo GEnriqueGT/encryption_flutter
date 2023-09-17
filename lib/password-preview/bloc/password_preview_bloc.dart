@@ -34,9 +34,13 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
         var data = documentSnapshot.data() as Map<String, dynamic>;
 
         passwordInfo = PasswordComplete.fromJson(data, event.passwordId);
+
+        print(passwordInfo.username);
+
         emit(PasswordSucces(passwordInfo));
       }
     } catch (error) {
+      print(error);
       emit(
         GetPasswordInfoError(
           error.toString(),

@@ -22,11 +22,12 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
-  bool _obscureText = true; // Estado del campo de texto de contraseña
+  late bool _obscureText; // Estado del campo de texto de contraseña
 
   @override
   void initState() {
     super.initState();
+    _obscureText = widget.obscureText;
     _focusNode.addListener(() {
       setState(() {
         _isFocused = _focusNode.hasFocus;
@@ -77,34 +78,30 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ),
                 prefixIcon: widget.icon != null
                     ? Icon(
-                  widget.icon,
-                  color: _isFocused ? redPink : Colors.grey,
-                )
+                        widget.icon,
+                        color: _isFocused ? redPink : Colors.grey,
+                      )
                     : null,
                 suffixIcon: widget.obscureText
-                    ? SizedBox(
-                  height: 50.0, // Establecer la altura máxima
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(100, 0),
-                      padding: EdgeInsets.zero, // Eliminar el relleno
-                      backgroundColor:
-                      _obscureText ? Colors.grey : redPink,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    child: Text(
-                      _obscureText ? 'Mostrar' : 'Ocultar',
-                      style: TextStyle(fontSize: 14.0),
-                    ),
-                  ),
-                )
+                    ? ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 0),
+                          padding: EdgeInsets.zero, // Eliminar el relleno
+                          backgroundColor: _obscureText ? Colors.grey : redPink,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        child: Text(
+                          _obscureText ? 'Mostrar' : 'Ocultar',
+                          style: const TextStyle(fontSize: 14.0),
+                        ),
+                      )
                     : null,
               ),
             ),
