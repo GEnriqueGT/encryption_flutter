@@ -97,9 +97,9 @@ class _HomeBodyState extends State<HomeBody> {
                           ),
                         ),
                         SvgPicture.asset(
-                          '${imagePath}password-logo.svg',
-                          width: 40,
-                          height: 40,
+                          '${imagePath}save-logo.svg',
+                          width: 30,
+                          height: 30,
                           color: darkPink,
                         ),
                       ],

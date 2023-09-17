@@ -85,9 +85,9 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
                     ),
                   ),
                   SvgPicture.asset(
-                    '${imagePath}password-logo.svg',
-                    width: 40,
-                    height: 40,
+                    '${imagePath}add-logo.svg',
+                    width: 30,
+                    height: 30,
                     color: darkPink,
                   ),
                 ],
