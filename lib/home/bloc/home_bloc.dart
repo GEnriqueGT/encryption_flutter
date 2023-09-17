@@ -36,6 +36,8 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
     Emitter<BaseState> emit,
   ) async {
     try {
+      emit(Loading());
+
       List<Password> passwordsInFirestore = [];
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -53,9 +55,9 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
           data,
           doc.id,
         ));
-      }
+      };
 
-      emit(PasswordsSucces(passwordsInFirestore));
+      emit(PasswordsSuccess(passwordsInFirestore));
     } catch (error) {
       emit(
         LogOutError(

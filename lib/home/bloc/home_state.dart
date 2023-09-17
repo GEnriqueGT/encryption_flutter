@@ -18,10 +18,12 @@ class LogOutError extends HomeState {
       this.message);
 }
 
-class PasswordsSucces extends HomeState {
+class Loading extends HomeState {}
+
+class PasswordsSuccess extends HomeState {
   final List<Password> passwordsSaved;
 
-  const PasswordsSucces(
+  const PasswordsSuccess(
       this.passwordsSaved);
 }
 

@@ -40,7 +40,7 @@ class _HomeBodyState extends State<HomeBody> {
       listener: (context, state) {
         if (state is LogOutSuccess) {
           Navigator.pushReplacementNamed(context, rootRoute);
-        } else if (state is PasswordsSucces){
+        } else if (state is PasswordsSuccess){
           setState(() {
             passwords = state.passwordsSaved;
           });
