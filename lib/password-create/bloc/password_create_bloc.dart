@@ -6,6 +6,7 @@ import 'package:password_manager/common/bloc/base_bloc.dart';
 import 'package:password_manager/common/bloc/base_state.dart';
 import 'package:password_manager/password-preview/model/categories_model.dart';
 import 'package:password_manager/password-preview/model/password_complete_model.dart';
+import 'package:password_manager/resources/encrypt_decrypt.dart';
 
 part 'password_create_event.dart';
 part 'password_create_state.dart';
@@ -57,6 +58,9 @@ class PasswordCreateBloc extends BaseBloc<PasswordCreateEvent, BaseState> {
           createPasswordModel.site.isNotEmpty) {
         String userId = FirebaseAuth.instance.currentUser!.uid;
 
+        createPasswordModel.password = encryptText(createPasswordModel.password, "ASDFGHJKLASDFGHJ");
+
+
         CollectionReference passwordStoredReference =
             FirebaseFirestore.instance.collection('password_stored');
 
@@ -66,6 +70,7 @@ class PasswordCreateBloc extends BaseBloc<PasswordCreateEvent, BaseState> {
         emit(const PasswordCreateError("Debe llenar todos los campos"));
       }
     } catch (error) {
+      print(error);
       emit(
         PasswordCreateError(
           error.toString(),
