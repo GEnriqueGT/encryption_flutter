@@ -80,7 +80,7 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
        if (event.searchWord.isNotEmpty) {
          passwordsList = passwordsList.where((password) {
            return password.site.contains(event.searchWord) ||
-               password.username.contains(event.searchWord);
+               password.username.contains(event.searchWord) ||  password.tags.any((tag) => tag.contains(event.searchWord));
          }).toList();
 
          emit(PasswordsSuccess(passwordsList));

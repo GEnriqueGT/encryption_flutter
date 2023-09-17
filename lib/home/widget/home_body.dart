@@ -50,6 +50,7 @@ class _HomeBodyState extends State<HomeBody> {
         } else if (state is PasswordsSuccess){
           setState(() {
             passwords = state.passwordsSaved;
+
            if(passwordsInitialCache.isEmpty) passwordsInitialCache = passwords;
           });
         } else if (state is PasswordsSuccess){
@@ -182,7 +183,16 @@ class _HomeBodyState extends State<HomeBody> {
                       ),
                     ),
                     title: Text(password.site),
-                    subtitle: Text(password.username),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 5,),
+                        Text(password.username, style: TextStyle(fontSize: 15)),
+                       SizedBox(height: 5,),
+                       if(password.tags.isNotEmpty) Text("Tags: ${password.tags.join(', ')}", style: TextStyle(fontSize: 14, color: darkPink)),
+                        SizedBox(height: 5,),
+                      ],
+                    ),
                     trailing: const Icon(
                       Icons.arrow_forward,
                       color: darkPink,
@@ -191,6 +201,7 @@ class _HomeBodyState extends State<HomeBody> {
                       Navigator.pushNamed(context, passwordPreviewRoute, arguments: password.id).then((value) => homeBloc.add(const GetPasswordsSaved()));
                     },
                   ),
+
                 );
               },
             ),
