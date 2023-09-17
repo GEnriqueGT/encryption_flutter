@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager/common/bloc/base_bloc.dart';
 import 'package:password_manager/common/bloc/base_state.dart';
+import 'package:password_manager/password-preview/model/categories_model.dart';
 import 'package:password_manager/password-preview/model/password_complete_model.dart';
 
 part 'password_preview_event.dart';
@@ -22,6 +23,7 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
       ) async {
     try {
       PasswordComplete passwordInfo;
+      List<Categories> categories = [];
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -36,9 +38,20 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
 
         passwordInfo = PasswordComplete.fromJson(data, event.passwordId);
 
-        print(passwordInfo.username);
 
-        emit(PasswordSuccess(passwordInfo));
+        QuerySnapshot categoriesSnapshot = await firestore
+            .collection("categories")
+            .get();
+
+        if (categoriesSnapshot.docs.isNotEmpty) {
+          categories = categoriesSnapshot.docs
+              .map((doc) => Categories.fromJson(doc.data() as Map<String, dynamic>))
+              .toList();
+
+          emit(PasswordSuccess(passwordInfo, categories));
+        }
+
+
       }
     } catch (error) {
       print(error);

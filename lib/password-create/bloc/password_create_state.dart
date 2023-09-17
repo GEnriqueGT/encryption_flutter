@@ -20,4 +20,10 @@ class PasswordCreateError extends PasswordCreateState {
       this.message);
 }
 
+class CategoriesSuccess extends PasswordCreateState {
+  final List<Categories> categories ;
+
+  const CategoriesSuccess(
+       this.categories);
+}
 

@@ -22,12 +22,10 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
   final TextEditingController urlController = TextEditingController();
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final List<String> categories = ['Categoría 1', 'Categoría 2', 'Categoría 3'];
-  String selectedCategory = 'Categoría 1';
   List<String> tags = [];
 
   late PasswordComplete passwordCreateModel;
-  late PasswordCreateBloc passwordCreateBlocBloc;
+  late PasswordCreateBloc passwordCreateBloc;
   late ToastContext toastContext;
   late List<Categories> categorias;
   late int categoriaSeleccionada;
@@ -41,13 +39,14 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
     toastContext = ToastContext();
     toastContext.init(context);
     categorias = [];
-    categoriaSeleccionada = 0;
+    categoriaSeleccionada = 1;
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    passwordCreateBlocBloc = context.read<PasswordCreateBloc>();
+    passwordCreateBloc = context.read<PasswordCreateBloc>();
+    passwordCreateBloc.add(GetCategorias());
   }
 
   @override
@@ -61,6 +60,10 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
         } else if (state is PasswordCreateError) {
           Toast.show(state.message,
               duration: Toast.lengthShort, gravity: Toast.bottom);
+        } else if(state is CategoriesSuccess){
+          setState(() {
+            categorias = state.categories;
+          });
         }
       },
       child: ListView(
@@ -258,7 +261,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
                   passwordCreateModel.password = passwordController.text;
                   passwordCreateModel.tagsIds = [];
 
-                  passwordCreateBlocBloc
+                  passwordCreateBloc
                       .add(CreatePassword(passwordCreateModel));
                 },
                 style: ElevatedButton.styleFrom(

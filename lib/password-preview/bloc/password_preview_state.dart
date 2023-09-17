@@ -21,10 +21,11 @@ class GetPasswordInfoError extends PasswordPreviewState {
 }
 
 class PasswordSuccess extends PasswordPreviewState {
+  final List<Categories> categories ;
   final PasswordComplete passwordInfo;
 
-  const PasswordSuccess(
-      this.passwordInfo);
+   const PasswordSuccess(
+      this.passwordInfo, this.categories);
 }
 
 class Error extends PasswordPreviewState {

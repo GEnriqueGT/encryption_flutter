@@ -13,3 +13,12 @@ class CreatePassword extends PasswordCreateEvent{
   List<Object> get props => [passwordModel];
 
 }
+
+
+class GetCategorias extends PasswordCreateEvent{
+  const GetCategorias();
+
+  @override
+  List<Object> get props => [];
+
+}

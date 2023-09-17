@@ -63,10 +63,12 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
       listener: (context, state) {
         if (state is PasswordSuccess) {
           setState(() {
+            categorias = state.categories;
             passwordInfo = state.passwordInfo;
             urlController.text = passwordInfo.site;
             userController.text = passwordInfo.username;
             passwordController.text = passwordInfo.password;
+            categoriaSeleccionada = passwordInfo.categoryId;
           });
         } else if (state is DeletePasswordSuccess) {
           Navigator.pop(context);
