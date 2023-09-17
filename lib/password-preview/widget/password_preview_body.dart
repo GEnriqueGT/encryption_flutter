@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:password_manager/common/bloc/base_state.dart';
 import 'package:password_manager/common/widgets/custom_dropdown.dart';
 import 'package:password_manager/common/widgets/custom_text_field.dart';
+import 'package:password_manager/home/bloc/home_bloc.dart';
 import 'package:password_manager/password-preview/bloc/password_preview_bloc.dart';
 import 'package:password_manager/password-preview/model/password_complete_model.dart';
 import 'package:password_manager/resources/colours.dart';
@@ -20,6 +21,9 @@ class PasswordPreviewBody extends StatefulWidget {
 }
 
 class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
+  final TextEditingController urlController = TextEditingController();
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   late PasswordComplete passwordInfo;
   late PasswordPreviewBloc passwordPreviewBloc;
   late ToastContext toastContext;
@@ -35,12 +39,19 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
         categoryId: 0,
         tagsIds: [],
         password: "");
-    passwordPreviewBloc = context.read<PasswordPreviewBloc>();
-    passwordPreviewBloc.add(RequestPassword(widget.passwordId));
+
     toastContext = ToastContext();
     toastContext.init(context);
     editable = false;
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    passwordPreviewBloc = context.read<PasswordPreviewBloc>();
+    passwordPreviewBloc.add(RequestPassword(widget.passwordId));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +60,18 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
         if (state is PasswordSuccess) {
           setState(() {
             passwordInfo = state.passwordInfo;
+            urlController.text = passwordInfo.site;
+            userController.text = passwordInfo.username;
+            passwordController.text = passwordInfo.password;
           });
         } else if (state is DeletePasswordSuccess) {
           Navigator.pop(context);
           Navigator.pop(context);
+          Toast.show('se ha eliminado la contraseña con exito',
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        } else if (state is GetPasswordInfoError) {
+          Toast.show(state.message,
+              duration: Toast.lengthShort, gravity: Toast.bottom);
         }
       },
       child: ListView(
@@ -122,17 +141,41 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
-                  child: Text(
-                    'Credencial',
-                    style: TextStyle(
-                      fontFamily: 'DM Sans',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Credencial',
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              editable = !editable;
+                              if (editable) {
+                                Toast.show('ahora esta en modo edición',
+                                    duration: Toast.lengthShort,
+                                    gravity: Toast.bottom);
+                              } else if (!editable) {
+                                Toast.show('ahora esta en modo solo lectura',
+                                    duration: Toast.lengthShort,
+                                    gravity: Toast.bottom);
+                              }
+                            });
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            color: editable ? darkPink : Colors.grey,
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    )),
                 CustomDropdown(
                   label: 'Categoría',
                   value: 'Categoría 1',
@@ -144,22 +187,20 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                 ),
                 CustomTextField(
                   label: 'Dirección del Sitio',
-                  controller: TextEditingController(text: passwordInfo.site),
+                  controller: urlController,
                   icon: Icons.public,
                   editable: editable,
                 ),
                 CustomTextField(
                   label: 'Nombre de Usuario',
-                  controller:
-                      TextEditingController(text: passwordInfo.username),
+                  controller: userController,
                   icon: Icons.person,
                   editable: editable,
                 ),
                 CustomTextField(
                   label: 'Contraseña',
                   obscureText: true,
-                  controller:
-                      TextEditingController(text: passwordInfo.password),
+                  controller: passwordController,
                   icon: Icons.key,
                   editable: editable,
                 ),
@@ -229,35 +270,89 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [redPink, darkPink],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                       setState(() {
+                         passwordInfo.username = userController.text;
+                         passwordInfo.site = urlController.text;
+                         passwordInfo.password = passwordController.text;
+                         passwordPreviewBloc.add(EditPassword(passwordInfo));
+                         Toast.show('Contraseña editada con exito', duration: 5, gravity:  Toast.bottom);
+                         editable = false;
+                       });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: EdgeInsets.zero,
+                        maximumSize: Size(150, 100),
                       ),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 100.0),
-                    child: const Text(
-                      'Editar Contraseña',
-                      style: TextStyle(
-                        fontFamily: 'DM Sans',
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [redPink, darkPink],
+                          ),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12.0,
+                          horizontal: 10.0,
+                        ),
+                        child: const Text(
+                          'Editar Contraseña',
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    ElevatedButton(
+                      onPressed: () {
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: EdgeInsets.zero,
+                        maximumSize: Size(150, 100),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.grey, Colors.white60],
+                          ),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12.0,
+                          horizontal: 40.0,
+                        ),
+                        child: const Text(
+                          'Cancelar',
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

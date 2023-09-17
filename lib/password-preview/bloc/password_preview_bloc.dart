@@ -13,6 +13,7 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
   PasswordPreviewBloc() : super(PasswordPreviewInitial()) {
     on<RequestPassword>(getPassword);
     on<DeletePassword>(deletePassword);
+    on<EditPassword>(editPassword);
   }
 
   Future<void> getPassword(
@@ -64,6 +65,37 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
     } catch (error) {
       emit(
         GetPasswordInfoError(
+          error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> editPassword(
+      final EditPassword event,
+      Emitter<BaseState> emit,
+      ) async {
+    try {
+
+      final PasswordComplete createPasswordModel = event.passwordModel;
+
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
+      if (createPasswordModel.password.isNotEmpty ||
+          createPasswordModel.username.isNotEmpty ||
+          createPasswordModel.site.isNotEmpty) {
+
+        DocumentReference<Map<String, dynamic>> passwordToEditReference =
+        FirebaseFirestore.instance.collection('password_stored').doc(event.passwordModel.id);
+
+        await passwordToEditReference.update(event.passwordModel.toJson(userId));
+        emit(PasswordEditedSuccess());
+      } else {
+        emit(const Error("Debe llenar todos los campos"));
+      }
+    } catch (error) {
+      emit(
+        Error(
           error.toString(),
         ),
       );

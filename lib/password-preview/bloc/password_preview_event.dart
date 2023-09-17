@@ -22,3 +22,13 @@ class DeletePassword extends PasswordPreviewEvent{
   List<Object> get props => [passwordId];
 
 }
+
+
+class EditPassword extends PasswordPreviewEvent{
+  final PasswordComplete passwordModel;
+  const EditPassword(this.passwordModel);
+
+  @override
+  List<Object> get props => [passwordModel];
+
+}

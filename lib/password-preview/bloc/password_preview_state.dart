@@ -27,3 +27,11 @@ class PasswordSuccess extends PasswordPreviewState {
       this.passwordInfo);
 }
 
+class Error extends PasswordPreviewState {
+  final String message;
+
+  const Error(
+      this.message);
+}
+
+class PasswordEditedSuccess extends PasswordPreviewState {}
