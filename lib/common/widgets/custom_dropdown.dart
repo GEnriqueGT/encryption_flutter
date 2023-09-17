@@ -30,11 +30,19 @@ class CustomDropdown extends StatelessWidget {
         const SizedBox(height: 10),
         Container(
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
             border: Border.all(
-              color: Colors.grey,
-              width: 1.0,
+              color: Colors.grey.withOpacity(0.4),
             ),
-            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 3),
+              ),
+            ],
+            color: Colors.white,
           ),
           child: SizedBox(
             height: 50.0,
@@ -44,7 +52,7 @@ class CustomDropdown extends StatelessWidget {
               items: items.map((item) {
                 return DropdownMenuItem<String>(
                   value: item,
-                  child: Text(item),
+                  child: Padding(padding: EdgeInsets.only(left: 10), child: Text(item)),
                 );
               }).toList(),
               underline: Container(
@@ -58,6 +66,7 @@ class CustomDropdown extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: 10,)
       ],
     );
   }

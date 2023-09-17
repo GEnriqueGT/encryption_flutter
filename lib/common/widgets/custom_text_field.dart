@@ -53,10 +53,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
         const SizedBox(height: 10),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(15.0),
             border: Border.all(
-              color: _isFocused ? redPink : Colors.grey,
+              color: _isFocused ? redPink : Colors.grey.withOpacity(0.4),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 3),
+              ),
+            ],
+            color: Colors.white,
           ),
           child: SizedBox(
             height: 50.0,
@@ -67,17 +76,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
               readOnly: !widget.editable,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
+                focusedBorder: const OutlineInputBorder(
+                  borderSide:  BorderSide(
                     color: Colors.transparent,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
+                enabledBorder:const OutlineInputBorder(
+                  borderSide:  BorderSide(
                     color: Colors.transparent,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
                 ),
                 prefixIcon: widget.icon != null
                     ? Icon(
@@ -110,6 +117,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
           ),
         ),
+        const SizedBox(height: 20,)
       ],
     );
   }

@@ -35,6 +35,7 @@ class _HomeBodyState extends State<HomeBody> {
     widget.setReloadFunction( (){
       homeBloc.add(const GetPasswordsSaved());
     });
+
   }
 
 
