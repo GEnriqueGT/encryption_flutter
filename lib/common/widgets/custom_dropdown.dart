@@ -6,14 +6,16 @@ class CustomDropdown extends StatelessWidget {
   final int? value;
   final List<Categories> items;
   final ValueChanged<int?> onChanged;
+  final bool isEditable;
 
-  const CustomDropdown({
-    Key? key,
-    required this.label,
-    required this.items,
-    required this.value,
-    required this.onChanged,
-  }) : super(key: key);
+  CustomDropdown(
+      {Key? key,
+      required this.label,
+      required this.items,
+      required this.value,
+      required this.onChanged,
+      this.isEditable = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class CustomDropdown extends StatelessWidget {
             height: 50.0,
             child: DropdownButton<int>(
               value: value,
-              onChanged: onChanged,
+              onChanged: isEditable ? onChanged : null,
               items: items.map((category) {
                 return DropdownMenuItem<int>(
                   value: category.id,
@@ -70,7 +72,9 @@ class CustomDropdown extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        )
       ],
     );
   }

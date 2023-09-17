@@ -216,6 +216,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                       categoriaSeleccionada = newValue!;
                     });
                   },
+                  isEditable: editable,
                 ),
                 const SizedBox(
                   height: 10,
@@ -313,6 +314,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
+                          passwordInfo.categoryId = categoriaSeleccionada;
                           passwordInfo.username = userController.text;
                           passwordInfo.site = urlController.text;
                           passwordInfo.password = passwordController.text;

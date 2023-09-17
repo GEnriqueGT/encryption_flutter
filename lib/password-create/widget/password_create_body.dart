@@ -255,7 +255,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
                 onPressed: () {
-                  passwordCreateModel.categoryId = 1;
+                  passwordCreateModel.categoryId = categoriaSeleccionada;
                   passwordCreateModel.site = urlController.text;
                   passwordCreateModel.username = userController.text;
                   passwordCreateModel.password = passwordController.text;
