@@ -26,6 +26,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   late PasswordComplete passwordInfo;
+  late PasswordComplete passwordInfoInitialCache;
   late PasswordPreviewBloc passwordPreviewBloc;
   late ToastContext toastContext;
   late bool editable;
@@ -38,7 +39,8 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
     super.initState();
     passwordInfo = PasswordComplete(
         site: "", username: "", id: "", categoryId: 0, tags: [], password: "");
-
+    passwordInfoInitialCache = PasswordComplete(
+        site: "", username: "", id: "", categoryId: 0, tags: [], password: "");
     toastContext = ToastContext();
     toastContext.init(context);
     editable = false;
@@ -67,6 +69,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             passwordController.text = passwordInfo.password;
             categoriaSeleccionada = passwordInfo.categoryId;
             tags = passwordInfo.tags;
+            passwordInfoInitialCache = passwordInfo;
           });
         } else if (state is DeletePasswordSuccess) {
           Navigator.pop(context);
@@ -358,7 +361,17 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          passwordInfo = passwordInfoInitialCache;
+                          urlController.text = passwordInfo.site;
+                          passwordController.text = passwordInfo.site;
+                          userController.text = passwordInfo.site;
+                          tags = passwordInfo.tags;
+                          categoriaSeleccionada = passwordInfo.categoryId;
+                          editable = false;
+                        });
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
