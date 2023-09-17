@@ -52,7 +52,6 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
     passwordPreviewBloc.add(RequestPassword(widget.passwordId));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<PasswordPreviewBloc, BaseState>(
@@ -82,19 +81,34 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             alignment: Alignment.center,
             child: Stack(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    onPressed: () {
-                      showDeleteDialog(context);
-                    },
-                    icon: const Icon(
-                      Icons.delete,
-                      color: darkPink,
-                      size: 25,
-                    ),
-                  ),
-                ),
+               Container(
+                 margin: const EdgeInsets.only(top: 10),
+                 child:  Align(
+                     alignment: Alignment.topLeft,
+                     child: Stack(
+                       alignment: Alignment.center,
+                       children: [
+                         Container(
+                           width: 40.0,
+                           height: 40.0,
+                           decoration: const BoxDecoration(
+                             shape: BoxShape.circle,
+                             color: Colors.white,
+                           ),
+                         ),
+                         IconButton(
+                           onPressed: () {
+                             Navigator.pop(context);
+                           },
+                           icon: const Icon(
+                             Icons.arrow_back,
+                             color: darkPink,
+                             size: 25,
+                           ),
+                         ),
+                       ],
+                     )),
+               ),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -171,6 +185,16 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                           icon: Icon(
                             Icons.edit,
                             color: editable ? darkPink : Colors.grey,
+                            size: 25,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            showDeleteDialog(context);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.grey,
                             size: 25,
                           ),
                         ),
@@ -275,14 +299,15 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                       setState(() {
-                         passwordInfo.username = userController.text;
-                         passwordInfo.site = urlController.text;
-                         passwordInfo.password = passwordController.text;
-                         passwordPreviewBloc.add(EditPassword(passwordInfo));
-                         Toast.show('Contraseña editada con exito', duration: 5, gravity:  Toast.bottom);
-                         editable = false;
-                       });
+                        setState(() {
+                          passwordInfo.username = userController.text;
+                          passwordInfo.site = urlController.text;
+                          passwordInfo.password = passwordController.text;
+                          passwordPreviewBloc.add(EditPassword(passwordInfo));
+                          Toast.show('Contraseña editada con exito',
+                              duration: 5, gravity: Toast.bottom);
+                          editable = false;
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
@@ -317,9 +342,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
