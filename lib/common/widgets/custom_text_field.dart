@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final bool obscureText;
   final TextEditingController controller;
   final IconData? icon;
+  final bool editable;
 
   const CustomTextField({
     Key? key,
@@ -13,6 +14,7 @@ class CustomTextField extends StatefulWidget {
     this.obscureText = false,
     required this.controller,
     this.icon,
+    this.editable = true,
   }) : super(key: key);
 
   @override
@@ -62,6 +64,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               controller: widget.controller,
               obscureText: _obscureText,
               focusNode: _focusNode,
+              readOnly: !widget.editable,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(bottom: 10, left: 10),
                 focusedBorder: OutlineInputBorder(

@@ -23,6 +23,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
   late PasswordComplete passwordInfo;
   late PasswordPreviewBloc passwordPreviewBloc;
   late ToastContext toastContext;
+  late bool editable;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
     passwordPreviewBloc.add(RequestPassword(widget.passwordId));
     toastContext = ToastContext();
     toastContext.init(context);
+    editable = false;
   }
 
   @override
@@ -62,7 +64,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             child: Stack(
               children: [
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: Alignment.centerRight,
                   child: IconButton(
                     onPressed: () {
                       showDeleteDialog(context);
@@ -132,11 +134,10 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                   ),
                 ),
                 CustomDropdown(
-                  label: 'Selecciona una categoría',
+                  label: 'Categoría',
                   value: 'Categoría 1',
                   items: ['Categoría 1', 'Categoría 2', 'Categoría 3'],
-                  onChanged: (newValue) {
-                  },
+                  onChanged: (newValue) {},
                 ),
                 const SizedBox(
                   height: 10,
@@ -145,17 +146,22 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                   label: 'Dirección del Sitio',
                   controller: TextEditingController(text: passwordInfo.site),
                   icon: Icons.public,
+                  editable: editable,
                 ),
                 CustomTextField(
                   label: 'Nombre de Usuario',
-                  controller: TextEditingController(text: passwordInfo.username),
+                  controller:
+                      TextEditingController(text: passwordInfo.username),
                   icon: Icons.person,
+                  editable: editable,
                 ),
                 CustomTextField(
                   label: 'Contraseña',
                   obscureText: true,
-                  controller: TextEditingController(text: passwordInfo.password),
+                  controller:
+                      TextEditingController(text: passwordInfo.password),
                   icon: Icons.key,
+                  editable: editable,
                 ),
               ],
             ),
@@ -173,7 +179,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20.0),
                   child: Text(
-                    'Agregar Tag',
+                    'Tags',
                     style: TextStyle(
                       fontFamily: 'DM Sans',
                       fontWeight: FontWeight.bold,
@@ -202,60 +208,59 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                           ),
                         ),
                       ),
-                    ElevatedButton(
-                      onPressed: () {
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                    if (editable)
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
+                        child: Text('Agregar'),
                       ),
-                      child: Text('Agregar'),
-                    ),
                   ],
                 ),
               ],
             ),
           ),
           const SizedBox(height: 20),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                onPressed: () {
-
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [redPink, darkPink],
+          if (editable)
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 100.0),
-                  child: const Text(
-                    'Editar Contraseña',
-                    style: TextStyle(
-                      fontFamily: 'DM Sans',
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [redPink, darkPink],
+                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 100.0),
+                    child: const Text(
+                      'Editar Contraseña',
+                      style: TextStyle(
+                        fontFamily: 'DM Sans',
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
