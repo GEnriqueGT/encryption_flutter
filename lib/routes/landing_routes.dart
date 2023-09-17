@@ -14,7 +14,7 @@ class LandingRoutes {
         );
       case homeRoute:
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (_) =>  HomeScreen(),
         );
       case createRoute:
         return MaterialPageRoute(

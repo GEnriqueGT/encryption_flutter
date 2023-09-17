@@ -9,7 +9,8 @@ import 'package:password_manager/resources/constants.dart';
 import 'package:password_manager/routes/landing_routes_constants.dart';
 
 class HomeBody extends StatefulWidget {
-  const HomeBody({Key? key}) : super(key: key);
+  final Function(Function()) setReloadFunction;
+  const HomeBody({Key? key, required this.setReloadFunction}) : super(key: key);
 
   @override
   State<HomeBody> createState() => _HomeBodyState();
@@ -23,6 +24,7 @@ class _HomeBodyState extends State<HomeBody> {
   void initState() {
     super.initState();
     passwords = [];
+
   }
 
   @override
@@ -30,6 +32,9 @@ class _HomeBodyState extends State<HomeBody> {
     super.didChangeDependencies();
     homeBloc = context.read<HomeBloc>();
     homeBloc.add(const GetPasswordsSaved());
+    widget.setReloadFunction( (){
+      homeBloc.add(const GetPasswordsSaved());
+    });
   }
 
 
