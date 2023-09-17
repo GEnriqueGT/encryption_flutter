@@ -14,7 +14,7 @@ class PasswordPreviewScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PasswordPreviewBloc(),
       child:  Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white70.withOpacity(0.92),
         body:  PasswordPreviewBody(passwordId: passwordId),
         appBar: AppBar(backgroundColor: pink, toolbarHeight: 0,automaticallyImplyLeading: false),
       ),

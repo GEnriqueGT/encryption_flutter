@@ -20,10 +20,10 @@ class GetPasswordInfoError extends PasswordPreviewState {
       this.message);
 }
 
-class PasswordSucces extends PasswordPreviewState {
+class PasswordSuccess extends PasswordPreviewState {
   final PasswordComplete passwordInfo;
 
-  const PasswordSucces(
+  const PasswordSuccess(
       this.passwordInfo);
 }
 

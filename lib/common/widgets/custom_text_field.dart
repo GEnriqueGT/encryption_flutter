@@ -22,7 +22,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
-  late bool _obscureText; // Estado del campo de texto de contraseña
+  late bool _obscureText;
 
   @override
   void initState() {
@@ -91,7 +91,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 0),
-                          padding: EdgeInsets.zero, // Eliminar el relleno
+                          padding: EdgeInsets.zero,
                           backgroundColor: _obscureText ? Colors.grey : redPink,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),

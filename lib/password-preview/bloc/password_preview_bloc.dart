@@ -37,7 +37,7 @@ class PasswordPreviewBloc extends BaseBloc<PasswordPreviewEvent, BaseState> {
 
         print(passwordInfo.username);
 
-        emit(PasswordSucces(passwordInfo));
+        emit(PasswordSuccess(passwordInfo));
       }
     } catch (error) {
       print(error);

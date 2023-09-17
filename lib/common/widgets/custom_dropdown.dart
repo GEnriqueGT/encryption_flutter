@@ -31,10 +31,10 @@ class CustomDropdown extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.grey, // Color del borde
-              width: 1.0, // Ancho del borde
+              color: Colors.grey,
+              width: 1.0,
             ),
-            borderRadius: BorderRadius.circular(10.0), // Radio de la esquina
+            borderRadius: BorderRadius.circular(10.0),
           ),
           child: SizedBox(
             height: 50.0,

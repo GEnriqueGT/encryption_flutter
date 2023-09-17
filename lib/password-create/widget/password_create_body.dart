@@ -52,6 +52,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
     return BlocListener<PasswordCreateBloc, BaseState>(listener: (context, state) {
       if (state is CreatePasswordSuccess) {
         Navigator.pop(context);
+        Toast.show('Contraseña creada con exito', duration: Toast.lengthShort, gravity:  Toast.bottom);
       } else if(state is PasswordCreateError){
         Toast.show(state.message, duration: Toast.lengthShort, gravity:  Toast.bottom);
       }
