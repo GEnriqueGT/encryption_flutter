@@ -16,7 +16,6 @@ class HomeScreen extends StatelessWidget {
      reloadPasswords = reloadBodyFunction;
    }
 
-
    @override
   Widget build(BuildContext context) {
     return BlocProvider(
