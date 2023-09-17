@@ -4,7 +4,7 @@ class PasswordComplete {
   final String? id;
    String password;
    int categoryId;
-   List<int> tagsIds;
+   List<String> tags;
 
   PasswordComplete({
     required this.site,
@@ -12,7 +12,7 @@ class PasswordComplete {
      this.id,
     required this.password,
     required this.categoryId,
-    required this.tagsIds,
+    required this.tags,
   });
 
   factory PasswordComplete.fromJson(Map<String, dynamic> json, final String id) {
@@ -20,7 +20,7 @@ class PasswordComplete {
     String site = "";
     String username = "";
     int categoryId = 0;
-    List<int> tagsIds = [];
+    List<String> tags = [];
 
     if (json['site_address'] != null) {
       site = json['site_address'];
@@ -42,8 +42,8 @@ class PasswordComplete {
       List<dynamic> tagsData = json['tags'];
 
       for (var value in tagsData) {
-        if (value is int) {
-          tagsIds.add(value);
+        if (value is String) {
+          tags.add(value);
         }
       }
     }
@@ -52,7 +52,7 @@ class PasswordComplete {
       username: username,
       id: id,
       categoryId: categoryId,
-      tagsIds: tagsIds,
+      tags: tags,
       password: password,
     );
   }
@@ -62,7 +62,7 @@ class PasswordComplete {
       'site_address': site,
       'user': username,
       'category_id': categoryId,
-      'tags': tagsIds,
+      'tags': tags,
       'password': password,
       'uid': userId,
     };

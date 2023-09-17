@@ -35,7 +35,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
   void initState() {
     super.initState();
     passwordCreateModel = PasswordComplete(
-        site: "", username: "", categoryId: 0, tagsIds: [], password: "");
+        site: "", username: "", categoryId: 0, tags: [], password: "");
     toastContext = ToastContext();
     toastContext.init(context);
     categorias = [];
@@ -259,7 +259,7 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
                   passwordCreateModel.site = urlController.text;
                   passwordCreateModel.username = userController.text;
                   passwordCreateModel.password = passwordController.text;
-                  passwordCreateModel.tagsIds = [];
+                  passwordCreateModel.tags = tags;
 
                   passwordCreateBloc
                       .add(CreatePassword(passwordCreateModel));

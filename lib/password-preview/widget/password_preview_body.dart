@@ -30,23 +30,20 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
   late ToastContext toastContext;
   late bool editable;
   late List<Categories> categorias;
+  late List<String> tags;
   late int categoriaSeleccionada;
 
   @override
   void initState() {
     super.initState();
     passwordInfo = PasswordComplete(
-        site: "",
-        username: "",
-        id: "",
-        categoryId: 0,
-        tagsIds: [],
-        password: "");
+        site: "", username: "", id: "", categoryId: 0, tags: [], password: "");
 
     toastContext = ToastContext();
     toastContext.init(context);
     editable = false;
     categorias = [];
+    tags = [];
     categoriaSeleccionada = 0;
   }
 
@@ -69,6 +66,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             userController.text = passwordInfo.username;
             passwordController.text = passwordInfo.password;
             categoriaSeleccionada = passwordInfo.categoryId;
+            tags = passwordInfo.tags;
           });
         } else if (state is DeletePasswordSuccess) {
           Navigator.pop(context);
@@ -256,7 +254,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Text(
-                    passwordInfo.tagsIds.isNotEmpty
+                    passwordInfo.tags.isNotEmpty
                         ? 'Tags'
                         : 'No tiene tags asignadas',
                     style: const TextStyle(
@@ -268,7 +266,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                 ),
                 Row(
                   children: [
-                    for (int tag in passwordInfo.tagsIds)
+                    for (String tag in tags)
                       Container(
                         decoration: BoxDecoration(
                           color: pink,
@@ -278,7 +276,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                             vertical: 10.0, horizontal: 12.0),
                         margin: const EdgeInsets.only(right: 8.0),
                         child: Text(
-                          "test",
+                          tag,
                           style: const TextStyle(
                             fontFamily: 'DM Sans',
                             fontWeight: FontWeight.bold,
@@ -289,7 +287,9 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                       ),
                     if (editable)
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _mostrarDialogoAgregarTag();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey,
                           shape: RoundedRectangleBorder(
@@ -318,6 +318,7 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                           passwordInfo.username = userController.text;
                           passwordInfo.site = urlController.text;
                           passwordInfo.password = passwordController.text;
+                          passwordInfo.tags = tags;
                           passwordPreviewBloc.add(EditPassword(passwordInfo));
                           Toast.show('Contraseña editada con exito',
                               duration: 5, gravity: Toast.bottom);
@@ -419,6 +420,44 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                 Navigator.of(context).pop();
               },
               child: const Text("No"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _mostrarDialogoAgregarTag() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String nuevoTag = "";
+
+        return AlertDialog(
+          title: const Text('Agregar Tag'),
+          content: TextField(
+            onChanged: (value) {
+              nuevoTag = value;
+            },
+            decoration: const InputDecoration(
+              hintText: 'Ingrese un nuevo tag',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  tags.add(nuevoTag);
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text('Crear'),
             ),
           ],
         );
