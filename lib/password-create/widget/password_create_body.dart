@@ -5,6 +5,7 @@ import 'package:password_manager/common/bloc/base_state.dart';
 import 'package:password_manager/common/widgets/custom_dropdown.dart';
 import 'package:password_manager/common/widgets/custom_text_field.dart';
 import 'package:password_manager/password-create/bloc/password_create_bloc.dart';
+import 'package:password_manager/password-preview/model/categories_model.dart';
 import 'package:password_manager/password-preview/model/password_complete_model.dart';
 import 'package:password_manager/resources/colours.dart';
 import 'package:password_manager/resources/constants.dart';
@@ -28,6 +29,9 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
   late PasswordComplete passwordCreateModel;
   late PasswordCreateBloc passwordCreateBlocBloc;
   late ToastContext toastContext;
+  late List<Categories> categorias;
+  late int categoriaSeleccionada;
+
 
   @override
   void initState() {
@@ -36,6 +40,8 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
         site: "", username: "", categoryId: 0, tagsIds: [], password: "");
     toastContext = ToastContext();
     toastContext.init(context);
+    categorias = [];
+    categoriaSeleccionada = 0;
   }
 
   @override
@@ -151,11 +157,11 @@ class _PasswordCreateBodyState extends State<PasswordCreateBody> {
                 ),
                 CustomDropdown(
                   label: 'Selecciona una categoria',
-                  value: selectedCategory,
-                  items: categories,
+                  value: categoriaSeleccionada,
+                  items: categorias,
                   onChanged: (newValue) {
                     setState(() {
-                      selectedCategory = newValue!;
+                      categoriaSeleccionada = newValue!;
                     });
                   },
                 ),

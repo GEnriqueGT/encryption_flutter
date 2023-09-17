@@ -6,6 +6,7 @@ import 'package:password_manager/common/widgets/custom_dropdown.dart';
 import 'package:password_manager/common/widgets/custom_text_field.dart';
 import 'package:password_manager/home/bloc/home_bloc.dart';
 import 'package:password_manager/password-preview/bloc/password_preview_bloc.dart';
+import 'package:password_manager/password-preview/model/categories_model.dart';
 import 'package:password_manager/password-preview/model/password_complete_model.dart';
 import 'package:password_manager/resources/colours.dart';
 import 'package:password_manager/resources/constants.dart';
@@ -28,6 +29,8 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
   late PasswordPreviewBloc passwordPreviewBloc;
   late ToastContext toastContext;
   late bool editable;
+  late List<Categories> categorias;
+  late int categoriaSeleccionada;
 
   @override
   void initState() {
@@ -43,6 +46,8 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
     toastContext = ToastContext();
     toastContext.init(context);
     editable = false;
+    categorias = [];
+    categoriaSeleccionada = 0;
   }
 
   @override
@@ -81,34 +86,34 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             alignment: Alignment.center,
             child: Stack(
               children: [
-               Container(
-                 margin: const EdgeInsets.only(top: 10),
-                 child:  Align(
-                     alignment: Alignment.topLeft,
-                     child: Stack(
-                       alignment: Alignment.center,
-                       children: [
-                         Container(
-                           width: 40.0,
-                           height: 40.0,
-                           decoration: const BoxDecoration(
-                             shape: BoxShape.circle,
-                             color: Colors.white,
-                           ),
-                         ),
-                         IconButton(
-                           onPressed: () {
-                             Navigator.pop(context);
-                           },
-                           icon: const Icon(
-                             Icons.arrow_back,
-                             color: darkPink,
-                             size: 25,
-                           ),
-                         ),
-                       ],
-                     )),
-               ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 40.0,
+                            height: 40.0,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: darkPink,
+                              size: 25,
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -202,9 +207,13 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
                     )),
                 CustomDropdown(
                   label: 'Categoría',
-                  value: 'Categoría 1',
-                  items: ['Categoría 1', 'Categoría 2', 'Categoría 3'],
-                  onChanged: (newValue) {},
+                  value: categoriaSeleccionada,
+                  items: categorias,
+                  onChanged: (newValue) {
+                    setState(() {
+                      categoriaSeleccionada = newValue!;
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 10,
@@ -241,11 +250,13 @@ class _PasswordPreviewBodyState extends State<PasswordPreviewBody> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Text(
-                    'Tags',
-                    style: TextStyle(
+                    passwordInfo.tagsIds.isNotEmpty
+                        ? 'Tags'
+                        : 'No tiene tags asignadas',
+                    style: const TextStyle(
                       fontFamily: 'DM Sans',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:password_manager/password-preview/model/categories_model.dart';
 
 class CustomDropdown extends StatelessWidget {
   final String label;
-  final String? value;
-  final List<String> items;
-  final ValueChanged<String?> onChanged;
+  final int? value;
+  final List<Categories> items;
+  final ValueChanged<int?> onChanged;
 
   const CustomDropdown({
     Key? key,
@@ -46,13 +47,16 @@ class CustomDropdown extends StatelessWidget {
           ),
           child: SizedBox(
             height: 50.0,
-            child: DropdownButton<String>(
+            child: DropdownButton<int>(
               value: value,
               onChanged: onChanged,
-              items: items.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Padding(padding: EdgeInsets.only(left: 10), child: Text(item)),
+              items: items.map((category) {
+                return DropdownMenuItem<int>(
+                  value: category.id,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(category.name),
+                  ),
                 );
               }).toList(),
               underline: Container(
