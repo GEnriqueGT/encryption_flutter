@@ -20,6 +20,8 @@ class LogOutError extends HomeState {
 
 class Loading extends HomeState {}
 
+class ResetSearch extends HomeState {}
+
 class PasswordsSuccess extends HomeState {
   final List<Password> passwordsSaved;
 

@@ -20,3 +20,14 @@ class GetPasswordsSaved extends HomeEvent{
   List<Object> get props => [];
 
 }
+
+class SearchPassword extends HomeEvent{
+  final String searchWord;
+  final List<Password> passwordsSaved;
+
+  const SearchPassword({required this.searchWord, required this.passwordsSaved});
+
+  @override
+  List<Object> get props => [searchWord];
+
+}

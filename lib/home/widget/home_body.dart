@@ -17,14 +17,15 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  final TextEditingController searchControllar = TextEditingController();
   late HomeBloc homeBloc;
   late List<Password> passwords;
-
+  late List<Password> passwordsInitialCache;
   @override
   void initState() {
     super.initState();
     passwords = [];
-
+    passwordsInitialCache = [];
   }
 
   @override
@@ -49,6 +50,11 @@ class _HomeBodyState extends State<HomeBody> {
         } else if (state is PasswordsSuccess){
           setState(() {
             passwords = state.passwordsSaved;
+           if(passwordsInitialCache.isEmpty) passwordsInitialCache = passwords;
+          });
+        } else if (state is PasswordsSuccess){
+          setState(() {
+           passwords = passwordsInitialCache;
           });
         }
       },
@@ -125,8 +131,12 @@ class _HomeBodyState extends State<HomeBody> {
                 ],
                 color: Colors.white,
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child:  TextField(
+                controller: searchControllar,
+                onChanged: (value){
+                  homeBloc.add(SearchPassword(searchWord: value, passwordsSaved: passwordsInitialCache));
+                },
+                decoration: const InputDecoration(
                   prefixIcon: Icon(
                     Icons.search,
                     color: Colors.grey,

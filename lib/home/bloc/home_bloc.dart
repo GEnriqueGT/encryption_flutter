@@ -12,6 +12,7 @@ part 'home_state.dart';
 class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
   HomeBloc() : super(HomeInitial()) {
     on<LogOut>(logOut);
+    on<SearchPassword>(searchPassword);
     on<GetPasswordsSaved>(getPasswordsSaved);
   }
 
@@ -58,6 +59,36 @@ class HomeBloc extends BaseBloc<HomeEvent, BaseState> {
       };
 
       emit(PasswordsSuccess(passwordsInFirestore));
+    } catch (error) {
+      emit(
+        LogOutError(
+          error.toString(),
+        ),
+      );
+    }
+  }
+
+   searchPassword(
+      final SearchPassword event,
+      Emitter<BaseState> emit,
+      )  {
+    try {
+      emit(Loading());
+
+      List<Password> passwordsList = event.passwordsSaved;
+
+       if (event.searchWord.isNotEmpty) {
+         passwordsList = passwordsList.where((password) {
+           return password.site.contains(event.searchWord) ||
+               password.username.contains(event.searchWord);
+         }).toList();
+
+         emit(PasswordsSuccess(passwordsList));
+       } else{
+         emit(ResetSearch());
+       }
+
+
     } catch (error) {
       emit(
         LogOutError(
